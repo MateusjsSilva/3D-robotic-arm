@@ -5,12 +5,19 @@
  * Mofificado por: Mateus Silva
  */
 
-#include "Config.h""
+#include "Config.h"
 
-// Global variables for defining colors
+/*
+ * Declaring Constants and Variables
+ */
 float R, G, B;
 
-// Function prototypes for OpenGL callbacks
+static int rotation = 40, shoulder = 0, elbow = 60, hand = 90, thumb = -90, indexfinger = 90, ringfinger = 90;
+
+
+/*
+ * Advance declarations (forward) of functions (signatures)
+ */
 void init(void);
 void keyboard(unsigned char key, int x, int y);
 void display(void);
@@ -19,35 +26,25 @@ void drawSolidCylinder(GLfloat radius, GLfloat height, GLint slices, GLint stack
 
 
 /*
- * Declaring Constants and Variables
+ *
+ * Main function
+ *
  */
-static int ombro = 0, cotovelo = 0, rotacionar = 0, mao = 0, polegar = 0, indicador = 0, anelar = 0;
-static int rotation = 0, shoulder = 0, elbow = 0, hand = 0, thumb = 0, index = 0, ring = 0;
-
-/*
- * Declaracoes antecipadas (forward) das funcoes (assinaturas)
- */
-void init(void);
-void keyboard(unsigned char key, int x, int y);
-void display(void);
-void reshape(int w, int h);
-
-//Fucao principal
 int main(int argc, char** argv) {
 
-    // inicia o GLUT
+    // start GLUT
     glutInit(&argc, argv);
 
-    // inicia o display usando RGB, double-buffering e z-buffering
+    // starts the display using RGB, double-buffering and z-buffering
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(800, 600);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Robotic Arm");
 
-    // Funcao com alguns comandos para a inicializacao do OpenGL
+    // Function with some commands to initialize OpenGL
     init();
 
-    // define as funcoes de callback
+    // defines callback functions
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
@@ -64,14 +61,14 @@ int main(int argc, char** argv) {
  */
 void init(void) {
 
-    glClearColor(1.0, 1.0, 1.0, 1.0); //Limpa a tela com a cor branca;
-    glEnable(GL_DEPTH_TEST); // Habilita o algoritmo Z-Buffer
+    glClearColor(1.0, 1.0, 1.0, 1.0); // Cleans the screen with white color
+    glEnable(GL_DEPTH_TEST); // Enables the Z-Buffer algorithm
 }
 
 
 /*
  *
- * Ajusta a projecao para o redesenho da janela
+ * Adjusts the projection for window redesign
  *
  */
 void reshape(int w, int h) {
@@ -85,60 +82,72 @@ void reshape(int w, int h) {
 
     // Define a forma do volume de visualizacao para termos
     // uma projecao perspectiva (3D).
-    gluPerspective(60, (float)w / (float)h, 1.0, 9.0); //(angulo, aspecto, ponto_proximo, ponto distante)
-    gluLookAt(0.0, 0.0, 7.0,  // posicao da camera (olho)
+    gluPerspective(60, (float)w / (float)h, 1.0, 15); // (angulo, aspecto, ponto_proximo, ponto distante)
+    gluLookAt
+    (
+        0.0, 0.0, 7.0,  // posicao da camera (olho)
         0.0, 1.0, 0.0,  // direcao da camera (geralmente para centro da cena)
-        0.0, 1.0, 0.0); // sentido ou orientacao da camera (de cabeca para cima)
+        0.0, 1.0, 0.0
+    ); // sentido ou orientacao da camera (de cabeca para cima)
+    
     // muda para o modo GL_MODELVIEW para desenhar na tela
-
     glMatrixMode(GL_MODELVIEW);
 }
 
 
 /*
  *
- * Funcao callback para controle das teclas comuns
+ * Callback function to control common keys
  *
  */
 void keyboard(unsigned char key, int x, int y) {
+
     switch (key) {
-    case 'o': ombro = (ombro - 5) % 360; break; // sentido horario
-    case 'O': ombro = (ombro + 5) % 360; break; // sentido anti-horario
-    case 'c': cotovelo = (cotovelo - 5) % 360; break; // sentido horario
-    case 'C': cotovelo = (cotovelo + 5) % 360; break; // sentido anti-horario
-    case 'm':
-        mao = (mao - 5) % 360;
-        break;
-    case 'M':
-        mao = (mao + 5) % 360;
-        break;
-    case 'p':
-        polegar = (polegar - 5) % 360;
-        break;
-    case 'P':
-        polegar = (polegar + 5) % 360;
-        break;
-    case 'i':
-        indicador = (indicador + 5) % 360;
-        break;
-    case 'I':
-        indicador = (indicador - 5) % 360;
-        break;
-    case 'a':
-        anelar = (anelar + 5) % 360;
-        break;
-    case 'A':
-        anelar = (anelar - 5) % 360;
-        break;
-    case 'y':
-        rotacionar = (rotacionar - 5) % 360;
-        break;
-    case 'Y':
-        rotacionar = (rotacionar + 5) % 360;
-        break;
-    case ESC:
-        exit(EXIT_SUCCESS);
-        break; // sai do programa
+        case 'o': 
+            shoulder = (shoulder - 5) % 360; 
+            break; // clockwise
+        case 'O': 
+            shoulder = (shoulder + 5) % 360; 
+            break; // clockwise
+        case 'c': 
+            elbow = (elbow - 5) % 360; 
+            break; // clockwise
+        case 'C': 
+            elbow = (elbow + 5) % 360; 
+            break; // clockwise
+        case 'm':
+            hand = (hand - 5) % 360;
+            break;
+        case 'M':
+            hand = (hand + 5) % 360;
+            break;
+        case 'p':
+            thumb = (thumb - 5) % 360;
+            break;
+        case 'P':
+            thumb = (thumb + 5) % 360;
+            break;
+        case 'i':
+            indexfinger = (indexfinger + 5) % 360;
+            break;
+        case 'I':
+            indexfinger = (indexfinger - 5) % 360;
+            break;
+        case 'a':
+            ringfinger = (ringfinger + 5) % 360;
+            break;
+        case 'A':
+            ringfinger = (ringfinger - 5) % 360;
+            break;
+        case 'y':
+            rotation = (rotation - 5) % 360;
+            break;
+        case 'Y':
+            rotation = (rotation + 5) % 360;
+            break;
+        case ESC:
+            exit(EXIT_SUCCESS);
+            break;
     }
     glutPostRedisplay();
 }
@@ -146,31 +155,31 @@ void keyboard(unsigned char key, int x, int y) {
 
 /*
  *
- * Funcao callback para desenhar na janela
+ * Callback function to draw in the window
  *
  */
 void display(void) {
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Limpa o Buffer de Cores
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the Color Buffer
     glLoadIdentity();
 
     // Base 0
 
     glPushMatrix();
-    glColor3f(0, 0, 0);
-    glTranslatef(0.0, -2.0, 0.0);
-    glScalef(7.0, 0.1, 5.0);
-    glutSolidCube(1.0);
+        glColor3f(0, 1, 0);
+        glTranslatef(0.0, -2.0, 0.0);
+        glScalef(7.0, 0.1, 5.0);
+        glutSolidCube(1.0);
     glPopMatrix();
 
-    glRotatef((GLfloat)rotacionar, 0.0, 1.0, 0.0);
+    glRotatef((GLfloat)rotation, 0.0, 1.0, 0.0);
 
     // Base 1
 
     glPushMatrix();
         glTranslatef(0.0, -2.0, 0.0);
         glRotatef(-90, 1, 0, 0);
-        glColor3f(0.8, 0.8, 0.8);
+        glColor3f(0.8, 0.2, 0.8);
         glutSolidCone(2, 1.0, 30, 30); // base, height, slices, stacks
     glPopMatrix();
 
@@ -180,7 +189,7 @@ void display(void) {
     glPushMatrix();
         glTranslatef(0.0, -1.7, 0.0);
         glRotatef(-90, 1, 0, 0);
-        glColor3f(1, 1, 0.5);
+        glColor3f(0, 1, 1);
         glutSolidCone(1.0, 1.2, 30, 30); // base, height, slices, stacks
     glPopMatrix();
 
@@ -197,7 +206,7 @@ void display(void) {
 
         // Origin positioned at the shoulder
         glTranslatef(0.0, -1.0, 0.0);
-        glRotatef((GLfloat)ombro, 0.0, 0.0, 1.0);
+        glRotatef((GLfloat)shoulder, 0.0, 0.0, 1.0);
 
         // Origin positioned at the center of the arm
         glTranslatef(0.0, 1.0, 0.0);
@@ -224,7 +233,7 @@ void display(void) {
 
             // Origin positioned at the elbow
             glTranslatef(0.0, 1.0, 0.0);
-            glRotatef((GLfloat)cotovelo, 0.0, 0.0, 1.0);
+            glRotatef((GLfloat)elbow, 0.0, 0.0, 1.0);
             glTranslatef(0.0, 1.0, 0.0);
 
             glPushMatrix();
@@ -239,27 +248,36 @@ void display(void) {
                 glTranslatef(0.0, -0.7, 0.0);
                 glRotatef(-90, 1, 0, 0);
                 glScalef(0.2, 0.2, 1.8);
-                glColor3f(1, 1, 0);
+                glColor3f(0, 0, 1);
                 //glutSolidCube(1.0); // Size
                 drawSolidCylinder(1, 1, 30, 30);
             glPopMatrix();
 
             // Hand
-            glTranslatef(0.0, 1.0, 0.0);
-            glRotatef((GLfloat)mao, 0.0, 0.0, 1.0);
+            glTranslatef(0.0, 1, 0.0);
+            glRotatef((GLfloat)hand, 0.0, 0.0, 1.0);
             glTranslatef(0.0, -1.0, 0.0);
 
             glPushMatrix();
-                glTranslatef(0.0, 1.5, 0.0);
-                glScalef(0.4, 1, 0.7);
-                glColor3f(0, 1, 0.0);
-                glutSolidCube(1); // Size
+                glTranslatef(0.0, 1, 0.0);
+                glRotatef(-90, 1, 0, 0);
+                glScalef(0.15, 0.15, 1);
+                glColor3f(0.5, 0, 0.5);
+                //glutSolidCube(1); // Size
+                drawSolidCylinder(1, 1, 30, 30);
+            glPopMatrix();
+
+            // Elbow
+            glPushMatrix();
+                glTranslatef(0.0, 2, 0.0);
+                glColor3f(0.8, 0.8, 0.8);
+                glutSolidSphere(0.3, 30, 30); // radius, slices, stacks
             glPopMatrix();
 
             // Ring finger
             glPushMatrix();
                 glTranslatef(-0.2, 2.06, -0.09);
-                glRotatef((GLfloat)anelar, 0.0, 0.0, 1.0);
+                glRotatef((GLfloat)ringfinger, 0.0, 0.0, 1.0);
                 glTranslatef(0.2, -2.0, -0.09);
                 glTranslatef(0.0, 2.0, 0.0);
                 glScalef(0.5, 0.15, 0.15);
@@ -270,7 +288,7 @@ void display(void) {
             // Thumb
             glPushMatrix();
                 glTranslatef(0.2, 2.06, 0.0);
-                glRotatef((GLfloat)polegar, 0.0, 0.0, 1.0);
+                glRotatef((GLfloat)thumb, 0.0, 0.0, 1.0);
                 glTranslatef(-0.2, -2, 0.0);
                 glTranslatef(0.0, 2, 0.0);
                 glScalef(0.5, 0.15, 0.15);
@@ -281,7 +299,7 @@ void display(void) {
             // Index finger
             glPushMatrix();
                 glTranslatef(-0.2, 2.06, 0.09);
-                glRotatef((GLfloat)indicador, 0.0, 0.0, 1.0);
+                glRotatef((GLfloat)indexfinger, 0.0, 0.0, 1.0);
                 glTranslatef(0.2, -2.0, 0.09);
                 glTranslatef(0.0, 2.0, 0.0);
                 glScalef(0.5, 0.15, 0.15);
@@ -294,20 +312,23 @@ void display(void) {
     // Origin returns to the original coordinate system
     glPopMatrix();
 
-
     // Troca os buffers, mostrando o que acabou de ser desenhado
     glutSwapBuffers();
 }
 
 
 /*
+ * Function to draw a solid cylinder.
  *
- * Funcao callback para desenhar na janela
- *
+ * Parameters:
+ * - radius: radius of the cylinder.
+ * - height: height of the cylinder.
+ * - slices: number of subdivisions around the axis of the cylinder (surface detail).
+ * - stacks: number of subdivisions along the axis of the cylinder (height detail).
  */
 void drawSolidCylinder(GLfloat radius, GLfloat height, GLint slices, GLint stacks) {
     GLUquadricObj* obj = gluNewQuadric();
-    gluQuadricDrawStyle(obj, GLU_FILL);
-    gluCylinder(obj, radius, radius, height, slices, stacks);
-    gluDeleteQuadric(obj);
+    gluQuadricDrawStyle(obj, GLU_FILL); // Sets the drawing style to filled
+    gluCylinder(obj, radius, radius, height, slices, stacks); // Draws the cylinder
+    gluDeleteQuadric(obj); // Frees the memory allocated for the GLUquadric object
 }

@@ -18,7 +18,7 @@
 	#include <GL/glu.h>
 #endif
 
- // Include other libraries
+// Include other libraries
 #include <cmath> 
 
 // Define PI if not already defined
