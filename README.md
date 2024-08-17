@@ -1,49 +1,66 @@
 # 3D Robotic Arm
 
-Este repositório contém um projeto em OpenGL para desenhar um braço robótico em 3D. O usuário pode interagir com o braço robótico e rotacionar suas partes utilizando as teclas especificadas.
+This repository contains an OpenGL project for drawing a 3D robotic arm. The user can interact with the robotic arm and rotate its parts using the specified keys.
 
-## Captura de tela
+## Screenshot
 <div align="center">
   <img src="img/arm.png" alt="3D Robotic Arm" height="400em">
 </div>
 
-## Funcionalidades
+## Prerequisites
 
-- **Rotação do ombro:**
-  - Tecla `o`: Rotaciona o ombro no sentido horário.
-  - Tecla `O`: Rotaciona o ombro no sentido anti-horário.
-  
-- **Rotação do cotovelo:**
-  - Tecla `c`: Rotaciona o cotovelo no sentido horário.
-  - Tecla `C`: Rotaciona o cotovelo no sentido anti-horário.
-  
-- **Rotação da mão:**
-  - Tecla `m`: Rotaciona a mão no sentido horário.
-  - Tecla `M`: Rotaciona a mão no sentido anti-horário.
-  
-- **Rotação do polegar:**
-  - Tecla `p`: Rotaciona o polegar no sentido horário.
-  - Tecla `P`: Rotaciona o polegar no sentido anti-horário.
-  
-- **Rotação do dedo indicador:**
-  - Tecla `i`: Rotaciona o dedo indicador no sentido horário.
-  - Tecla `I`: Rotaciona o dedo indicador no sentido anti-horário.
-  
-- **Rotação do dedo anelar:**
-  - Tecla `a`: Rotaciona o dedo anelar no sentido horário.
-  - Tecla `A`: Rotaciona o dedo anelar no sentido anti-horário.
-  
-- **Rotação de todo o braço em torno do eixo Y:**
-  - Tecla `y`: Rotaciona o braço no sentido horário.
-  - Tecla `Y`: Rotaciona o braço no sentido anti-horário.
-  
-- **Sair do programa:**
-  - Tecla `ESC`: Fecha o programa.
+To ensure the project runs correctly on different platforms, specific libraries are included based on the operating system:
 
-## Contribuição
+```c
+#ifdef __APPLE__ // MacOS
+    #define GL_SILENCE_DEPRECATION
+    #include <GLUT/glut.h>
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+#else // Windows and Linux
+    #include <GL/glut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
+```
 
-Sinta-se à vontade para abrir issues ou enviar pull requests. Toda contribuição é bem-vinda!
+## Features
 
-## Licença
+- **Shoulder Rotation:**
+  - Key `o`: Rotates the shoulder clockwise.
+  - Key `O`: Rotates the shoulder counterclockwiseo.
+  
+- **Elbow Rotation:**
+  - Key `c`: Rotates the elbow clockwise.
+  - Key `C`: Rotates the elbow counterclockwise.
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+- **Hand Rotation:**
+  - Key `m`: Rotates the hand clockwise
+  - Key `M`: Rotates the hand counterclockwise.
+
+- **Thumb Rotation:**
+  - Key `p`: Rotates the thumb clockwise.
+  - Key `P`: Rotates the thumb counterclockwise.
+  
+- **Index Finger Rotation:**
+  - Key `i`: Rotates the index finger clockwise.
+  - Key `I`: Rotates the index finger counterclockwise.
+  
+- **Ring Finger Rotationr:**
+  - Key `a`: Rotates the ring finger clockwise.
+  - Key `A`: Rotates the ring finger counterclockwise.
+  
+- **Full Arm Rotation Around Y-Axis:**
+  - Key `y`: Rotates the entire arm clockwise.
+  - Key `Y`: Rotates the entire arm counterclockwise.
+  
+- **Exit the Program:**
+  - Key `ESC`: Closes the program.
+
+## Contribution
+
+Feel free to open issues or submit pull requests. All contributions are welcome!
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
